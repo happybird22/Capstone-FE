@@ -23,3 +23,9 @@ button {
 button:hover {
     background-color: #7c3aed;
 }
+
+.error {
+    color: red;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
