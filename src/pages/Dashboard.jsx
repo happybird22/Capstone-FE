@@ -1,28 +1,28 @@
-import { useAuth } from "../context/authContext";
-import { Link } from "react-router-dom";
+import NoteList from "../components/NoteList";
+import { useState, useEffect } from "react";
+import api from '../api/axios';
 
 const Dashboard = () => {
-    const { user } = useAuth();
+    const [notes, setNotes] = useState([]);
 
-    if (!user) return <p>Loading your data...</p>;
+    useEffect(() => {
+        const fetchNotes = async () => {
+            try {
+                const res = await api.get('/session-notes');
+                setNotes(res.data);
+            } catch (err) {
+                console.error('Failed to fetch notes', err);
+            }
+        };
+
+        fetchNotes();
+    }, []);
 
     return (
         <div>
-            <h1> Greetings Adventurer!</h1>
-
-            <div>
-                <p>Role: <strong>{user.role}</strong></p>
-                <p>Party: {user.partyId ? 'Connected' : 'Not in a party yet'}</p>
-            </div>
-
-            {!user.partyId && (
-                <div>
-                    <Link to="/party/join" className='btn'>Join a Party</Link>
-                    {user.role === 'gm' && <Link to="/party/join" className="btn">Create a Party</Link>}
-                </div>
-            )}
-
-            {user.partyId}
+            <h1>My Session Notes</h1>
+            <NoteList notes={notes} />
         </div>
-    )
-}
+    );
+
+};
