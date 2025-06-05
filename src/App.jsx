@@ -4,6 +4,7 @@ import LandingPage from './pages/LandingPage';
 import RegisterPage from "./pages/RegistrationPage";
 import Dashboard from './pages/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
+import NewNote from "./pages/NewNote";
 
 function App() {
    return (
@@ -15,6 +16,14 @@ function App() {
       element={
         <PrivateRoute>
           <Dashboard />
+        </PrivateRoute>
+      } 
+      />
+      <Route 
+      path="/notes/create" 
+      element={
+        <PrivateRoute>
+          <NewNote />
         </PrivateRoute>
       } 
       />
