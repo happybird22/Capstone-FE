@@ -6,6 +6,7 @@
     color: white;
     padding: 1rem 2rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    width: 100%;
 }
 
 .logo a {
@@ -25,15 +26,10 @@
     text-decoration: none;
     padding: 0.5rem 1rem;
     border-radius: 8px;
+    margin-right: 2rem;
     transition: background-color 0.3s ease;
 }
 
 .link:hover {
     background-color: #2c2c3f;
-}
-
-.search {
-    flex: 1;
-    margin-left: 2rem;
-    max-width: 300px;
 }

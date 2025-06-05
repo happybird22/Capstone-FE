@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import RegisterForm from "../components/RegisterForm";
+import styles from '../components/AuthForm.module.css';
 
 const RegisterPage = () => {
     return (

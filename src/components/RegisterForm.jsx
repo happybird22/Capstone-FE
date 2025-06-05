@@ -42,12 +42,14 @@ const RegisterForm = () => {
             setCookie('jwt', res.data.token, { path: '/' });
             navigate('/dashboard');
         } catch (err) {
-            alert('Registration failed. Try again.');
+            const message = err.response?.data?.message || 'Registration failed. Try again.';
+            setError(message);
         }
     };
 
     return (
         <form className={styles.form} onSubmit={handleSubmit}>
+            {error && <p className={styles.error}>{error}</p>}
             <label>Username</label>
             <input name="username" value={form.username} onChange={handleChange} required />
 
@@ -58,7 +60,7 @@ const RegisterForm = () => {
             <input name="password" type="password" value={form.password} onChange={handleChange} required />
 
             <label>Confirm Password</label>
-            <input name="confimrPassword" type="password" value={form.confirmPassword} onChange={handleChange} required />
+            <input name="confirmPassword" type="password" value={form.confirmPassword} onChange={handleChange} required />
 
             <label>Role</label>
             <select name="role" value={form.role} onChange={handleChange}>
