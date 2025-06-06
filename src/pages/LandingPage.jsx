@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import LoginForm from "../components/LoginForm";
-import styles from '../components/AuthForm.module.css';
+import LoginForm from "../components/Forms/LoginForm";
+import styles from '../components/Forms/AuthForm.module.css';
 
 const LandingPage = () => {
     return (

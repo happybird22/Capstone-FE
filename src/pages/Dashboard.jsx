@@ -1,6 +1,6 @@
 import NoteList from "../components/NoteList";
-import NavBar from "../components/NavBar";
-import SearchBar from "../components/SearchBar";
+import NavBar from "../components/Nav/NavBar";
+import SearchBar from "../components/Search/SearchBar";
 import { useState, useEffect } from "react";
 import { useAuth } from '../context/authContext';
 import { useNavigate } from "react-router-dom";

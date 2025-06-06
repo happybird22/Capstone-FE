@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-import PartyForm from "../components/PartyForm";
-import JoinPartyForm from "../components/JoinPartyForm";
+import PartyForm from "../components/Forms/PartyForm";
+import JoinPartyForm from "../components/Forms/JoinPartyForm";
 import { useAuth } from "../context/authContext";
 
 function NewParty() {

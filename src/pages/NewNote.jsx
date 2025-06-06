@@ -1,6 +1,5 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
-import NoteForm from "../components/NoteForm";
+import NoteForm from "../components/Forms/NoteForm";
 import { useAuth } from "../context/authContext";
 import axios from "axios";
 

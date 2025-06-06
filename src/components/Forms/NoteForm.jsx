@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 function NoteForm({ onSubmit, initialData = {}, users = [] }) {
     const [campaignTitle, setCampaignTitle] = useState(initialData.campaignTitle || '');
