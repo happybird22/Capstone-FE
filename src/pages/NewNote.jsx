@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import NoteForm from "../components/Forms/NoteForm";
 import { useAuth } from "../context/authContext";
-import axios from "axios";
+import api from "../api/axios";
 
 function NewNote() {
     const navigate = useNavigate();
@@ -9,14 +9,10 @@ function NewNote() {
 
     const handleNoteSubmit = async (noteData) => {
         try {
-            const res = await axios.post('/api/notes', {
+            await api.post('/api/session-note/create', {
                 ...noteData,
                 author: user._id,
                 partyId: user.partyId,
-            }, {
-                headers: {
-                    Authorization: `Bearer ${user.token}`,
-                }
             });
 
             navigate('/dashboard');
@@ -29,7 +25,7 @@ function NewNote() {
     return (
         <div>
             <h2>Create a New Session Note</h2>
-            <NoteForm onSubmit={handleNoteSubmit} user={[]} />
+            <NoteForm onSubmit={handleNoteSubmit} user={user} />
         </div>
     );
 }

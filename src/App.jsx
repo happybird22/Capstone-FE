@@ -7,6 +7,7 @@ import PrivateRoute from './components/PrivateRoute';
 import NewNote from "./pages/NewNote";
 import NewParty from "./pages/NewParty";
 import NavBar from "./components/Nav/NavBar";
+import SessionNotePage from "./pages/SessionNotePage";
 
 function App() {
   const location = useLocation();
@@ -41,6 +42,14 @@ function App() {
             <NewParty />
           </PrivateRoute>
         }
+      />
+      <Route
+      path="/notes/:id"
+      element={
+        <PrivateRoute>
+          <SessionNotePage />
+        </PrivateRoute>
+      }
       />
     </Routes>
     </>

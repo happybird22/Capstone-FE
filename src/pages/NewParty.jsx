@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+import api from "../api/axios";
 import PartyForm from "../components/Forms/PartyForm";
 import JoinPartyForm from "../components/Forms/JoinPartyForm";
 import { useAuth } from "../context/authContext";
@@ -15,7 +15,7 @@ function NewParty() {
 
     const handleCreateParty = async (formData) => {
         try {
-            const res = await axios.post(
+            const res = await api.post(
                 '/api/parties/create',
                 { name: formData.name },
                 {
@@ -35,7 +35,7 @@ function NewParty() {
     const handleJoinParty = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post(
+            const res = await api.post(
                 '/api/parties/join',
                 { inviteCode },
                 {

@@ -1,5 +1,4 @@
 import NoteList from "../components/NoteList";
-import NavBar from "../components/Nav/NavBar";
 import SearchBar from "../components/Search/SearchBar";
 import { useState, useEffect } from "react";
 import { useAuth } from '../context/authContext';
@@ -12,6 +11,7 @@ const Dashboard = () => {
     const navigate = useNavigate();
     const [notes, setNotes] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [campaigns, setCampaigns] = useState([]);
     const [campaign, setCampaign] = useState('');
     const [partyId, setPartyId] = useState(user?.partyId || '');
     const [parties, setParties] = useState([]);
@@ -45,7 +45,7 @@ const Dashboard = () => {
                     notes.forEach((note) => {
                         if (note.campaignTitle) campaignSet.add(note.campaignTitle);
                     });
-                    setCampaigns(Array.from(campaignSet));
+                    setCampaign(Array.from(campaignSet));
                 } catch (err) {
                     console.error('Failed to fetch notes', err);
                 }

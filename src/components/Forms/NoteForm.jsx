@@ -6,7 +6,7 @@ function NoteForm({ onSubmit, initialData = {}, users = [] }) {
     const [notes, setNotes] = useState(initialData.notes || '');
     const [memorableMoments, setMemorableMoments] = useState(initialData.memorableMoments || '');
     const [notableNPCs, setNotableNPCs] = useState(initialData.notableNPCs || ['']);
-    const [notablePlaces, setNoatablePlaces] = useState(initialData.notablePlaces || ['']);
+    const [notablePlaces, setNotablePlaces] = useState(initialData.notablePlaces || ['']);
     const [visibility, setVisibility] = useState(initialData.visibility || 'private');
     const [sharedWith, setSharedWith] = useState(initialData.sharedWith || []);
 
@@ -17,16 +17,16 @@ function NoteForm({ onSubmit, initialData = {}, users = [] }) {
     };
 
     const addNPC = () => setNotableNPCs([...notableNPCs, '']);
-    const removeNPC = (index) => setNotableNPCs(notableNPCs.filter((_, i) => 1 !== index));
+    const removeNPC = (index) => setNotableNPCs(notableNPCs.filter((_, i) => i !== index));
 
     const handlePlaceChange = (index, value) => {
         const newPlaces = [...notablePlaces];
         newPlaces[index] = value;
-        setNoatablePlaces(newPlaces);
+        setNotablePlaces(newPlaces);
     };
 
-    const addPlace = () => setNoatablePlaces([...notablePlaces, '']);
-    const removePlace = (index) => setNoatablePlaces(notablePlaces.filter((_, i) => i !== index));
+    const addPlace = () => setNotablePlaces([...notablePlaces, '']);
+    const removePlace = (index) => setNotablePlaces(notablePlaces.filter((_, i) => i !== index));
 
     const handleSharedWithChange = (e) => {
         const options = e.target.options;
