@@ -76,7 +76,6 @@ const Dashboard = () => {
 
     return (
         <div>
-            <NavBar />
             <main className={styles.page}>
                 <div className={styles.topRow}>
                     <h1 className={styles.heading}>Welcome back, Adventurer!</h1>
