@@ -1,7 +1,21 @@
 .searchInput {
     width: 100%;
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1rem;
     border-radius: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid #767e79;
+    background-color: #fff8f6;
+    color: #000000;
     font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.searchInput::placeholder {
+    color: #767e79;
+    font-style: italic;
+}
+
+.searchInput:focus {
+    outline: none;
+    border-color: #ec2127;
+    box-shadow: 0 0 0 2px rgba(236, 33, 39, 0.25);
 }

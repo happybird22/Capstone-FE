@@ -50,6 +50,7 @@ function NewParty() {
                     {created ? (
                 <div>
                     <p><strong>Invite Code:</strong>{createdInviteCode}</p>
+                    <p>Share this code with all players you want to join this party!</p>
                     <button onClick={() => navigate('/dashboard')}>Return to Dashboard</button>
                 </div>
             ) : (
