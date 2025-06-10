@@ -1,45 +1,59 @@
 .list {
     display: grid;
     gap: 1.5rem;
-    padding: 1rem 0;
+    padding: 2rem 1rem;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 .card {
-    background-color: #f9f9fb;
-    border: 1px solid #ddd;
-    padding: 1rem 1.5rem;
+    background-color: #fdf6e3;
+    border: 1px solid #E6A20E;
+    padding: 1.5rem;
     border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
-    transition: transform 0.2s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    color: #000000;
 }
 
 .card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
 }
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
+    font-weight: 700;
+    color: #890c1e;
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
 }
 
 .preview {
-    color: #444;
-    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #333;
+    margin-bottom: 1rem;
 }
 
 .meta {
     font-size: 0.875rem;
-    color: #666;
+    color: #767e79;
     display: flex;
-    gap: 1rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    font-style: italic;
+    border-top: 1px solid #E6A20E;
+    padding-top: 0.75rem;
+    margin-top: 1rem;
 }
 
 .empty {
     text-align: center;
-    color: #999;
+    color: #bbb;
     font-style: italic;
-    margin-top: 2rem;
+    font-size: 1rem;
+    margin-top: 3rem;
 }

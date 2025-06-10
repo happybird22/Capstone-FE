@@ -1,1 +1,9 @@
-
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #000000, #890c1e);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

@@ -11,7 +11,7 @@ label {
     display: flex;
     flex-direction: column;
     font-weight: 600;
-    color: #890c1e;
+    color: #E6A20E;
     font-size: 1.25rem;
     gap: 0.4rem;
 }
@@ -22,7 +22,7 @@ input, select, textarea {
     border: 1px solid #767e79;
     border-radius: 8px;
     font-size: 1rem;
-    background-color: #fff8f6;
+    background-color: #fdf6e3;
     color: #000000;
     resize: vertical;
     transition: border-color 0.3s ease;
@@ -49,14 +49,9 @@ fieldset {
 
 legend {
     font-weight: 700;
-    color: #890c1e;
+    color: #E6A20E;
     margin-bottom: 0.5rem;
     font-size: 1.1rem;
-}
-
-label {
-    font-weight: 600;
-    color: #890c1e;
 }
 
 button {
