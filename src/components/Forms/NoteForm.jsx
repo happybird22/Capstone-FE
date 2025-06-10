@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function NoteForm({ onSubmit, initialData = {}, users = [] }) {
+function NoteForm({ onSubmit, initialData = {}, users = [], campaignOptions = [] }) {
     const [campaignTitle, setCampaignTitle] = useState(initialData.campaignTitle || '');
     const [sessionDate, setSessionDate] = useState(initialData.sessionDate ? initialData.sessionDate.substring(0, 10) : '');
     const [notes, setNotes] = useState(initialData.notes || '');
@@ -54,7 +54,24 @@ function NoteForm({ onSubmit, initialData = {}, users = [] }) {
     return (
         <form onSubmit={handleSubmit}>
             <label>Campaign Title:
-                <input type="text" value={campaignTitle} onChange={e => setCampaignTitle(e.target.value)} required />
+                <select
+                    value={campaignTitle}
+                    onChange={(e) => setCampaignTitle(e.target.value)}
+                >
+                    <option value="">-- Type new or select existing --</option>
+                    {campaignOptions.map((title) => (
+                        <option key={title} value={title}>
+                            {title}
+                        </option>
+                    ))}
+                </select>
+
+                <input type="text"
+                    placeholder="Or type new campaign title"
+                    value={campaignTitle}
+                    onChange={(e) => setCampaignTitle(e.target.value)}
+                    required
+                />
             </label>
 
             <label>Session Date:
@@ -79,16 +96,16 @@ function NoteForm({ onSubmit, initialData = {}, users = [] }) {
                 ))}
                 <button type="button" onClick={addNPC}>Add NPC</button>
             </fieldset>
-            
+
             <fieldset>
-            <legend>Notable Places:</legend>
-            {notablePlaces.map((place, i) => (
-                <div key={i}>
-                    <input type="text" value={place} onChange={e => handlePlaceChange(i, e.target.value)} />
-                    <button type="button" onClick={() => removePlace(i)}>Remove</button>
-                </div>
-            ))}
-            <button type="button" onClick={addPlace}>Add Place</button>
+                <legend>Notable Places:</legend>
+                {notablePlaces.map((place, i) => (
+                    <div key={i}>
+                        <input type="text" value={place} onChange={e => handlePlaceChange(i, e.target.value)} />
+                        <button type="button" onClick={() => removePlace(i)}>Remove</button>
+                    </div>
+                ))}
+                <button type="button" onClick={addPlace}>Add Place</button>
             </fieldset>
 
             <label>Visibility:

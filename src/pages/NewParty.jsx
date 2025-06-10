@@ -16,14 +16,8 @@ function NewParty() {
     const handleCreateParty = async (formData) => {
         try {
             const res = await api.post(
-                '/api/parties/create',
-                { name: formData.name },
-                {
-                    headers: {
-                        Authorization: `Bearer ${user.token}`,
-                    },
-                }
-            );
+                '/parties/create',
+                { name: formData.name });
 
             setCreatedInviteCode(res.data.inviteCode);
             setCreated(true);
@@ -36,14 +30,8 @@ function NewParty() {
         e.preventDefault();
         try {
             const res = await api.post(
-                '/api/parties/join',
-                { inviteCode },
-                {
-                    headers: {
-                        Authorization: `Bearer ${user.token}`,
-                    },
-                }
-            );
+                '/parties/join',
+                { inviteCode });
 
             setJoinMessage('Successfully joined the party!');
             navigate('/dashboard');
@@ -61,7 +49,7 @@ function NewParty() {
                     <h2>Create a New Party</h2>
                     {created ? (
                 <div>
-                    <p><strong>Invite Code:</strong>{inviteCode}</p>
+                    <p><strong>Invite Code:</strong>{createdInviteCode}</p>
                     <button onClick={() => navigate('/dashboard')}>Return to Dashboard</button>
                 </div>
             ) : (

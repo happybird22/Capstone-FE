@@ -36,7 +36,7 @@ const Dashboard = () => {
                         params.partyId = partyId;
                     }
 
-                    const res = await api.get('/session-notes', { params });
+                    const res = await api.get('/session-notes/dashboard', { params });
                     const notes = res.data;
 
                     setNotes(notes);
@@ -45,7 +45,7 @@ const Dashboard = () => {
                     notes.forEach((note) => {
                         if (note.campaignTitle) campaignSet.add(note.campaignTitle);
                     });
-                    setCampaign(Array.from(campaignSet));
+                    setCampaigns(Array.from(campaignSet));
                 } catch (err) {
                     console.error('Failed to fetch notes', err);
                 }
@@ -84,21 +84,21 @@ const Dashboard = () => {
 
                         <select value={campaign} onChange={(e) => setCampaign(e.target.value)}>
                             <option value="">All Campaigns</option>
-                            {campaigns.map((title) => {
+                            {campaigns.map((title) => (
                                 <option key={title} value={title}>
                                     {title}
                                 </option>
-                            })}
+                            ))}
                         </select>
 
                         {user?.role === 'gm' && (
                             <select value={partyId} onChange={(e) => setPartyId(e.target.value)}>
                                 <option value="">All Parties</option>
-                                {parties.map((party) => {
+                                {parties.map((party) => (
                                     <option key={party._id} value={party._id}>
                                         {party.name}
                                     </option>
-                                })}
+                                ))}
                             </select>
                         )}
                     </div>
