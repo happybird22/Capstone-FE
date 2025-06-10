@@ -11,6 +11,8 @@ const RegisterForm = () => {
         password: '',
         confirmPassword: '',
         role: 'player',
+    }, {
+        withCredentails: true,
     });
 
     const [error, setError] = useState('');

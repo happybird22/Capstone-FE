@@ -10,6 +10,7 @@ const api = axios.create({
 
 api.interceptors.request.use((config) => {
     const token = cookies.get('jwt');
+    console.log(cookies);
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }

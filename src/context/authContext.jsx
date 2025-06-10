@@ -7,7 +7,8 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [cookies] = useCookies(['jwt']);
     const [user, setUser] = useState(null);
-
+    console.log(cookies);
+    
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -20,7 +21,7 @@ export const AuthProvider = ({ children }) => {
         };
 
         fetchUser();
-    }, []);
+    }, [cookies]);
 
     return (
         <AuthContext.Provider value={{ user }}>

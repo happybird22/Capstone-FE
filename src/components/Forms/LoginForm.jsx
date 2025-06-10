@@ -13,7 +13,7 @@ const LoginForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await api.post('/auth/login', {email, password });
+            const res = await api.post('/auth/login', {email, password }, { withCredentials: true, });
             setCookie('jwt', res.data.token, { path: '/' });
             navigate('/dashboard');
         } catch (err) {
