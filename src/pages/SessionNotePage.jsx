@@ -38,12 +38,17 @@ const SessionNotePage = () => {
     if (error) return <p>{error}</p>;
     if (!note) return <p>Loading note...</p>;
 
-    const canEditOrDelete = user?._id === note.user;
+    const canEditOrDelete = user?._id === note.author;
 
     return (
         <div>
             <h1>{note.campaignTitle}</h1>
             <p>Date: {new Date(note.sessionDate).toLocaleDateString()}</p>
+            
+            <div>
+                <h2>Notes:</h2>
+                <p>{note.notes}</p>
+            </div>
 
             <div>
                 <h2>Notable NPCs:</h2>
@@ -60,15 +65,10 @@ const SessionNotePage = () => {
                 <p>{note.memorableMoments}</p>
             </div>
 
-            <div>
-                <h2>Notes:</h2>
-                <p>{note.notes}</p>
-            </div>
-
             {canEditOrDelete && (
                 <div>
                     <button
-                        onClick={() => navigate(`/${note._id}`)}>
+                        onClick={() => navigate(`/notes/${note._id}/edit`)}>
                         Edit
                     </button>
                     <button
