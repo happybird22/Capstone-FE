@@ -9,7 +9,7 @@ function NewNote() {
 
     const handleNoteSubmit = async (noteData) => {
         try {
-            await api.post('/api/session-note/create', {
+            await api.post('/session-notes/create', {
                 ...noteData,
                 author: user._id,
                 partyId: user.partyId,

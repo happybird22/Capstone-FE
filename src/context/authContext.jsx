@@ -10,16 +10,17 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const fetchUser = async () => {
-            if (!cookies.jwt) return;
             try {
                 const res = await api.get('/auth/me');
                 setUser(res.data);
             } catch (err) {
                 console.error('Auth fetch failed:', err);
+                setUser(null);
             }
         };
+
         fetchUser();
-    }, [cookies.jwt]);
+    }, []);
 
     return (
         <AuthContext.Provider value={{ user }}>
