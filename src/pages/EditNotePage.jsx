@@ -60,7 +60,7 @@ const EditNotePage = () => {
                 onSubmit={handleUpdate}
                 initialData={note}
                 campaignOptions={campaigns}
-                users={note.author}
+                users={[]}
             />
         </div>
     );
