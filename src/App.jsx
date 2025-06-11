@@ -8,6 +8,7 @@ import NewNote from "./pages/NewNote";
 import NewParty from "./pages/NewParty";
 import NavBar from "./components/Nav/NavBar";
 import SessionNotePage from "./pages/SessionNotePage";
+import EditNotePage from "./pages/EditNotePage";
 
 function App() {
   const location = useLocation();
@@ -15,43 +16,51 @@ function App() {
 
   return (
     <>
-    {!hideNav && <NavBar />}
-    <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route
-        path="/dashboard"
-        element={
-          <PrivateRoute>
-            <Dashboard />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/notes/create"
-        element={
-          <PrivateRoute>
-            <NewNote />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/parties/create"
-        element={
-          <PrivateRoute>
-            <NewParty />
-          </PrivateRoute>
-        }
-      />
-      <Route
-      path="/notes/:id"
-      element={
-        <PrivateRoute>
-          <SessionNotePage />
-        </PrivateRoute>
-      }
-      />
-    </Routes>
+      {!hideNav && <NavBar />}
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/notes/create"
+          element={
+            <PrivateRoute>
+              <NewNote />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/parties/create"
+          element={
+            <PrivateRoute>
+              <NewParty />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/notes/:id"
+          element={
+            <PrivateRoute>
+              <SessionNotePage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/notes/:id/edit"
+          element={
+            <PrivateRoute>
+              <EditNotePage />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
     </>
   );
 };
