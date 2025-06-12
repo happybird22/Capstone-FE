@@ -10,6 +10,7 @@ const EditNotePage = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
     const [campaigns, setCampaigns] = useState([]);
+    const [partyMembers, setPartyMembers] = useState([]);
 
     useEffect(() => {
         const fetchNote = async () => {
@@ -36,8 +37,18 @@ const EditNotePage = () => {
             }
         };
 
+        const fetchPartyMembers = async () => {
+            try {
+                const res = await api.get('/parties/mine');
+                setPartyMembers(res.data);
+            } catch {
+                setPartyMembers([]);
+            }
+        };
+
         fetchNote();
         fetchCampaigns();
+        fetchPartyMembers();
     }, [id]);
 
     const handleUpdate = async (updatedData) => {
@@ -60,7 +71,7 @@ const EditNotePage = () => {
                 onSubmit={handleUpdate}
                 initialData={note}
                 campaignOptions={campaigns}
-                users={[]}
+                users={partyMembers}
             />
         </div>
     );
