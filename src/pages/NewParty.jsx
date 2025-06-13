@@ -46,7 +46,6 @@ function NewParty() {
 
             {user.role === 'gm' && (
                 <section>
-                    <h2>Create a New Party</h2>
                     {created ? (
                 <div>
                     <p><strong>Invite Code:</strong>{createdInviteCode}</p>

@@ -51,6 +51,7 @@ const RegisterForm = () => {
 
     return (
         <form className={styles.form} onSubmit={handleSubmit}>
+            <h1>Register for an account here!</h1>
             {error && <p className={styles.error}>{error}</p>}
             <label>Username</label>
             <input name="username" value={form.username} onChange={handleChange} required />

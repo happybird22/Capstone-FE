@@ -132,3 +132,7 @@ button:hover {
 .switchText a:hover {
     text-decoration: underline;
 }
+
+h1 {
+    color: #E6A20E;
+}

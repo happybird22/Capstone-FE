@@ -1,7 +1,6 @@
 import styles from './NavBar.module.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
 
 const NavBar = () => {
