@@ -25,3 +25,8 @@ This is the frontend React application for the **D&D Session Journal**, where us
 - Party invite codes for easy access
 
 Backend Repo link: https://github.com/happybird22/Capstone-BE
+
+## Stretch Goals
+- Add additional dynamic User Parties section to display parties and invite codes
+- Add helpful hints for both DMs and Player Characters
+- Add shared inventory for all parties
