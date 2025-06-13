@@ -9,6 +9,7 @@ import NewParty from "./pages/NewParty";
 import NavBar from "./components/Nav/NavBar";
 import SessionNotePage from "./pages/SessionNotePage";
 import EditNotePage from "./pages/EditNotePage";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   const location = useLocation();
@@ -61,6 +62,7 @@ function App() {
           }
         />
       </Routes>
+      <Footer />
     </>
   );
 };

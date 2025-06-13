@@ -1,0 +1,54 @@
+.footer {
+    background: linear-gradient(135deg, #000000, #890c1e);
+    color: #fff;
+    padding: 2rem 1rem;
+    text-align: center;
+    font-size: 0.95rem;
+    margin-top: 3rem;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.brand p {
+    margin: 0;
+    font-weight: 600;
+    color: #E6A20E;
+}
+
+.logo {
+    max-height: 10rem;
+    width: auto;
+    object-fit: contain;
+    margin-top: 0.5rem;
+}
+
+.info p,
+.community p {
+    margin: 0.5rem 0;
+}
+
+a {
+    color: #E6A20E;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.discord {
+    background-color: #5865F2;
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    display: inline-block;
+    margin-top: 0.5rem;
+}
