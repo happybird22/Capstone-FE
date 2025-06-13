@@ -1,12 +1,27 @@
-# React + Vite
+# 🌐 D&D Session Journal App (Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend React application for the **D&D Session Journal**, where users can log in, manage party notes, and filter their session logs. Built for adventurers who love to stay organized.
 
-Currently, two official plugins are available:
+## ⚙️ Technologies Used
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React** (Vite)
+- **React Router DOM** – Routing
+- **Axios** – API requests
+- **React Cookie** – Session persistence
+- **CSS Modules** – Component styling
+- **Date-fns** – Date formatting
 
-## Expanding the ESLint configuration
+## 🔥 Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Register/login with protected routes
+- Role-based UI: GM-exclusive views
+- Create/edit/delete session notes
+- Notes searchable by:
+  - NPC
+  - Places
+  - Campaign
+  - Session date
+- Share notes privately, publicly, or with specific party members
+- Party invite codes for easy access
+
+Backend Repo link: https://github.com/happybird22/Capstone-BE
