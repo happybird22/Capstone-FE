@@ -12,7 +12,7 @@ const NavBar = () => {
 
     const handleLogout = () => {
         removeCookie('jwt', {path: '/' });
-        window.location.href = '/';
+        navigate('/login');
     };
 
     return (
