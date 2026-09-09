@@ -1,18 +1,16 @@
 import styles from './NavBar.module.css';
 import { useNavigate, Link } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
 import { useAuth } from '../../context/authContext';
 
 const NavBar = () => {
-    const { user } = useAuth();
-    const [, , removeCookie] = useCookies(['jwt']);
+    const { user, logout } = useAuth();
     const navigate = useNavigate();
 
     if (!user) return null;
 
-    const handleLogout = () => {
-        removeCookie('jwt', {path: '/' });
-        navigate('/login');
+    const handleLogout = async () => {
+        await logout();
+        navigate('/');
     };
 
     return (
@@ -27,7 +25,9 @@ const NavBar = () => {
                 )}
                 <Link to="/notes/create" className={styles.link}>New Note</Link>
                 <Link to="/parties/create" className={styles.link}>New Party</Link>
-                <button onClick={handleLogout} className={styles.link}>Logout</button>
+                <Link to="/hints" className={styles.link}>Helpful Hints</Link>
+                <Link to="/party-bank" className={styles.link}>Party Bank</Link>
+                <button onClick={handleLogout} className={styles.logoutLink}>Logout</button>
             </div>
         </nav>
     );

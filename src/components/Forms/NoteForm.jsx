@@ -119,7 +119,7 @@ function NoteForm({ onSubmit, initialData = {}, users = [], campaignOptions = []
             <label>Shared With:
                 <select multiple value={sharedWith} onChange={handleSharedWithChange}>
                     {users.map(user => (
-                        <option key={user._id} value={user._id}>{user.name}</option>
+                        <option key={user._id} value={user._id}>{user.username}</option>
                     ))}
                 </select>
             </label>

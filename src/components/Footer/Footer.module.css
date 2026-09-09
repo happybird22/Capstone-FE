@@ -1,5 +1,6 @@
 .footer {
-    background: linear-gradient(135deg, #000000, #890c1e);
+    background-color: var(--color-bg);
+    border-top: 1px solid var(--color-border);
     color: #fff;
     padding: 2rem 1rem;
     text-align: center;
@@ -19,7 +20,7 @@
 .brand p {
     margin: 0;
     font-weight: 600;
-    color: #E6A20E;
+    color: var(--color-text-muted);
 }
 
 .logo {
@@ -35,7 +36,7 @@
 }
 
 a {
-    color: #E6A20E;
+    color: var(--color-accent);
     text-decoration: none;
     font-weight: 500;
 }

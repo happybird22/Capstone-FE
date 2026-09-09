@@ -1,0 +1,114 @@
+.page {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: var(--color-text);
+}
+
+.heading {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-text);
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.subheading {
+    text-align: center;
+    color: var(--color-text-muted);
+    margin-bottom: 2rem;
+}
+
+.controls {
+    composes: gradientBorder from global;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    background-color: var(--color-surface);
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 2rem;
+}
+
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tab {
+    background: none;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.tab:hover {
+    background-color: var(--color-accent-soft);
+    color: var(--color-text);
+}
+
+.tabActive {
+    background: var(--gradient-accent);
+    border-color: var(--color-border-accent);
+    color: #fff;
+}
+
+.search {
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-input-bg);
+    color: var(--color-text);
+    font-family: var(--font-family);
+    font-size: 1rem;
+    min-width: 220px;
+}
+
+.search:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.25rem;
+}
+
+.card {
+    composes: gradientBorder from global;
+    background-color: var(--color-surface);
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    color: var(--color-text);
+}
+
+.card h3 {
+    color: var(--color-accent);
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+}
+
+.card p {
+    margin: 0;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
+
+.disclaimer {
+    margin-top: 2.5rem;
+    text-align: center;
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--color-text-dim);
+}

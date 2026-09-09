@@ -1,0 +1,100 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isSelf(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    function userData(uid) {
+      return get(/databases/$(database)/documents/users/$(uid)).data;
+    }
+
+    // ---------- Combat Tracker: per-user private subcollections ----------
+    // (characters, customMonsters, etc). This project's Firebase Auth +
+    // Firestore database is shared between the Session Journal and the
+    // Combat Tracker app, so their rules live together in this one file —
+    // only one ruleset can be active for the database at a time.
+    // Narrowed from Combat Tracker's original `users/{userId}/{document=**}`
+    // (which also covered the bare users/{uid} root doc) to require at
+    // least one named subcollection segment, so it no longer overlaps with
+    // the shared users/{uid} profile rules below. Combat Tracker's code
+    // only ever writes to users/{uid}/characters/... and
+    // users/{uid}/customMonsters/..., so this is a no-op for it.
+    match /users/{userId}/{subcollection}/{document=**} {
+      allow read, write: if isSignedIn() && request.auth.uid == userId;
+    }
+
+    // ---------- users (shared profile doc, Session Journal) ----------
+    match /users/{uid} {
+      // Any signed-in user can read basic profile docs — needed for the
+      // "shared with" picker and party-member lists (no server-side join).
+      allow read: if isSignedIn();
+
+      allow create: if isSelf(uid)
+        && request.resource.data.role in ['player', 'gm']
+        && request.resource.data.partyId == null;
+
+      // Self-updates only; role and email are immutable after creation.
+      // partyId is intentionally left unconstrained here — it's set by
+      // the create/join-party flow.
+      allow update: if isSelf(uid)
+        && request.resource.data.role == resource.data.role
+        && request.resource.data.username is string
+        && request.resource.data.email == resource.data.email;
+
+      // Self-delete only — used by account deletion (mobile app Settings).
+      allow delete: if isSelf(uid);
+    }
+
+    // ---------- parties ----------
+    match /parties/{partyId} {
+      allow read: if isSignedIn();
+
+      allow create: if isSignedIn()
+        && userData(request.auth.uid).role == 'gm'
+        && request.resource.data.gm == request.auth.uid
+        && request.resource.data.members == [request.auth.uid];
+
+      // Own uid only, either direction: a no-op, the caller's own uid
+      // appended (joining), or the caller's own uid removed (leaving, or
+      // account deletion cleaning up membership). name/inviteCode/gm are
+      // immutable after creation.
+      allow update: if isSignedIn()
+        && request.resource.data.name == resource.data.name
+        && request.resource.data.inviteCode == resource.data.inviteCode
+        && request.resource.data.gm == resource.data.gm
+        && (
+          request.resource.data.members == resource.data.members
+          || request.resource.data.members ==
+             resource.data.members.concat([request.auth.uid])
+          || request.resource.data.members ==
+             resource.data.members.removeAll([request.auth.uid])
+        );
+
+      allow delete: if false;
+
+      // ---------- party bank (shared per-party inventory) ----------
+      match /inventory/{itemId} {
+        allow read, create, update, delete: if isSignedIn()
+          && request.auth.uid in
+             get(/databases/$(database)/documents/parties/$(partyId)).data.members;
+      }
+    }
+
+    // ---------- session notes ----------
+    match /sessionNotes/{noteId} {
+      allow read: if isSignedIn() && request.auth.uid in resource.data.visibleTo;
+
+      allow create: if isSignedIn()
+        && request.resource.data.author == request.auth.uid
+        && request.auth.uid in request.resource.data.visibleTo;
+
+      allow update, delete: if isSignedIn() && resource.data.author == request.auth.uid;
+    }
+  }
+}

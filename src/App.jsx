@@ -9,6 +9,8 @@ import NewParty from "./pages/NewParty";
 import NavBar from "./components/Nav/NavBar";
 import SessionNotePage from "./pages/SessionNotePage";
 import EditNotePage from "./pages/EditNotePage";
+import HelpfulHints from "./pages/HelpfulHints";
+import PartyBank from "./pages/PartyBank";
 import Footer from "./components/Footer/Footer";
 
 function App() {
@@ -58,6 +60,22 @@ function App() {
           element={
             <PrivateRoute>
               <EditNotePage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/hints"
+          element={
+            <PrivateRoute>
+              <HelpfulHints />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/party-bank"
+          element={
+            <PrivateRoute>
+              <PartyBank />
             </PrivateRoute>
           }
         />

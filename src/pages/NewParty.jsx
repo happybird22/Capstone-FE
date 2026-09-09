@@ -1,68 +1,64 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api/axios";
+import { createParty, joinParty } from "../services/party.service";
 import PartyForm from "../components/Forms/PartyForm";
 import JoinPartyForm from "../components/Forms/JoinPartyForm";
 import { useAuth } from "../context/authContext";
+import styles from './FormPage.module.css';
 
 function NewParty() {
-    const [inviteCode, setInviteCode] = useState('');
     const [createdInviteCode, setCreatedInviteCode] = useState('');
     const [created, setCreated] = useState('');
-    const [joinMessage, setJoinMessage] = useState('');
     const { user } = useAuth();
     const navigate = useNavigate();
 
     const handleCreateParty = async (formData) => {
         try {
-            const res = await api.post(
-                '/parties/create',
-                { name: formData.name });
-
-            setCreatedInviteCode(res.data.inviteCode);
+            const { inviteCode } = await createParty({ name: formData.name, gmUid: user.uid });
+            setCreatedInviteCode(inviteCode);
             setCreated(true);
         } catch (err) {
-            alert(err.res?.data?.message || 'Could not create party');
+            alert(err.message || 'Could not create party');
         }
     };
 
-    const handleJoinParty = async (e) => {
-        e.preventDefault();
+    const handleJoinParty = async (inviteCode) => {
         try {
-            const res = await api.post(
-                '/parties/join',
-                { inviteCode });
-
-            setJoinMessage('Successfully joined the party!');
+            const res = await joinParty({ inviteCode, uid: user.uid });
             navigate('/dashboard');
+            return { message: res.message || 'Successfully joined the party!' };
         } catch (err) {
-            setJoinMessage(err.res?.data?.message || "Failed to join Party");
+            return { message: err.message || 'Failed to join Party' };
         }
     };
 
     return (
-        <div>
-            <h1>Party Portal</h1>
+        <main className={styles.page}>
+            <h1 className={styles.heading}>Party Portal</h1>
 
-            {user.role === 'gm' && (
-                <section>
-                    {created ? (
-                <div>
-                    <p><strong>Invite Code:</strong>{createdInviteCode}</p>
-                    <p>Share this code with all players you want to join this party!</p>
-                    <button onClick={() => navigate('/dashboard')}>Return to Dashboard</button>
-                </div>
-            ) : (
-                <PartyForm onSubmit={handleCreateParty} />
-            )}
-            </section>
-            )}
+            <div className={styles.card}>
+                {user.role === 'gm' && (
+                    <section className={styles.section}>
+                        {created ? (
+                            <div className={styles.inviteCode}>
+                                <p><strong>Invite Code:</strong> {createdInviteCode}</p>
+                                <p>Share this code with all players you want to join this party!</p>
+                                <button onClick={() => navigate('/dashboard')}>Return to Dashboard</button>
+                            </div>
+                        ) : (
+                            <PartyForm onSubmit={handleCreateParty} />
+                        )}
+                    </section>
+                )}
 
-            <section>
-                <h2>Join a Party</h2>
-                <JoinPartyForm onJoin={handleJoinParty} />
-            </section>
-        </div>
+                {user.role === 'gm' && <hr className={styles.divider} />}
+
+                <section className={styles.section}>
+                    <h2>Join a Party</h2>
+                    <JoinPartyForm onJoin={handleJoinParty} />
+                </section>
+            </div>
+        </main>
     );
 }
 

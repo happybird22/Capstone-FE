@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Privacy Policy — Session Journal</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #000000;
+    --surface: #0d0d0f;
+    --border: rgba(255, 255, 255, 0.12);
+    --accent: #EB2428;
+    --text: #ffffff;
+    --muted: #A7B0C6;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    background-image: radial-gradient(ellipse 900px 600px at 15% -10%, rgba(235, 36, 40, 0.16), transparent 60%);
+    background-attachment: fixed;
+    color: var(--text);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+  }
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+  h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+  h2 { font-size: 1.25rem; margin-top: 2.5rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
+  .updated { color: var(--muted); font-size: 0.9rem; margin-bottom: 2rem; }
+  p, li { color: var(--muted); }
+  strong { color: var(--text); }
+  a { color: var(--accent); }
+  ul { padding-left: 1.25rem; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 2rem 0;
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Privacy Policy</h1>
+  <p class="updated">Session Journal — last updated September 8, 2026</p>
+
+  <p>
+    Session Journal is a companion app for tabletop RPG players, published by
+    <strong>Dungeons Not Dating</strong> ("we," "us"). This policy explains what information the
+    app collects, how it's used, and how you can delete it.
+  </p>
+
+  <div class="card">
+    <strong>Short version:</strong> we collect only what's needed to run your account and your
+    party's shared notes and inventory — your email, a username, and the content you write. We
+    don't run ads, we don't use analytics or tracking, and we don't sell or share your data with
+    anyone outside the infrastructure that runs the app (Google Firebase).
+  </div>
+
+  <h2>Information we collect</h2>
+  <p>When you create an account and use the app, we collect:</p>
+  <ul>
+    <li><strong>Account information:</strong> your email address, password (handled entirely by
+      Firebase Authentication — we never see or store it in plain form), username, and role
+      (Player or Game Master).</li>
+    <li><strong>Party information:</strong> which party you belong to, and the invite code used to
+      join or create it.</li>
+    <li><strong>Session notes you write:</strong> campaign title, session date, notes, memorable
+      moments, notable NPCs and places, and who you've chosen to share each note with.</li>
+    <li><strong>Party Bank items:</strong> inventory entries (item name, description, quantity,
+      value) added by you or your party members.</li>
+  </ul>
+  <p>
+    We do not collect your location, contacts, photos, camera or microphone access, or any
+    advertising identifier. The app does not include analytics or tracking software of any kind.
+  </p>
+
+  <h2>How your content is shared</h2>
+  <p>Session notes are visible according to the setting you choose when you write them:</p>
+  <ul>
+    <li><strong>Private</strong> — visible only to you.</li>
+    <li><strong>Whole Party</strong> — visible to every member of your party.</li>
+    <li><strong>Someone specific</strong> — visible to you and whichever party members you select.</li>
+  </ul>
+  <p>
+    Party Bank inventory is visible to every member of that party. Parties are closed groups —
+    someone can only join with an invite code a Game Master shares with them directly; there is no
+    public discovery of users, parties, or notes.
+  </p>
+
+  <h2>How we use and store information</h2>
+  <p>
+    Your data is stored using <strong>Google Firebase</strong> (Firebase Authentication and Cloud
+    Firestore), which acts as our infrastructure provider. We use your information solely to
+    operate the app's features described above — account login, displaying your notes and your
+    party's shared content, and party inventory. We do not use your data for advertising, and we
+    do not sell or rent your information to any third party.
+  </p>
+
+  <h2>Data retention and deletion</h2>
+  <p>
+    Your data is retained for as long as your account is active. You can permanently delete your
+    account at any time from <strong>Account → Delete My Account</strong> inside the app. Doing so:
+  </p>
+  <ul>
+    <li>Permanently deletes every session note you authored;</li>
+    <li>Permanently deletes your account profile (username, email, role);</li>
+    <li>Removes you from your party's member list;</li>
+    <li>Permanently deletes your Firebase Authentication login credentials.</li>
+  </ul>
+  <p>
+    Party Bank items you contributed remain as part of your former party's shared inventory, since
+    they're shared party data rather than personal data tied to your account. If you no longer
+    have access to the app, see our
+    <a href="/delete-account.html">account deletion request page</a> for an alternative way to
+    request deletion.
+  </p>
+
+  <h2>Children's privacy</h2>
+  <p>
+    Session Journal is not directed at children under 13, and we do not knowingly collect
+    information from children under 13. If you believe a child has created an account, contact us
+    at the address below and we'll delete it.
+  </p>
+
+  <h2>Changes to this policy</h2>
+  <p>
+    If this policy changes, we'll update the "last updated" date above. Continued use of the app
+    after a change means you accept the updated policy.
+  </p>
+
+  <h2>Contact us</h2>
+  <p>
+    Questions about this policy or your data? Email us at
+    <a href="mailto:hello@dungeonsnotdating.com">hello@dungeonsnotdating.com</a>.
+  </p>
+</main>
+</body>
+</html>

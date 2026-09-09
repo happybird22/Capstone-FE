@@ -1,11 +1,15 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import api from "../api/axios";
+import { useAuth } from "../context/authContext";
+import { getDashboardNotes, getNoteById, updateNote } from "../services/notes.service";
+import { getPartyMembers } from "../services/party.service";
 import NoteForm from "../components/Forms/NoteForm";
+import styles from './FormPage.module.css';
 
 const EditNotePage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const { user } = useAuth();
     const [note, setNote] = useState(null);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
@@ -13,11 +17,14 @@ const EditNotePage = () => {
     const [partyMembers, setPartyMembers] = useState([]);
 
     useEffect(() => {
+        if (!user) return;
+
         const fetchNote = async () => {
             try {
-                const res = await api.get(`/session-notes/${id}`);
-                setNote(res.data);
+                const data = await getNoteById(id);
+                setNote(data);
             } catch (err) {
+                console.error('Failed to load session note:', err);
                 setError('Failed to load session note.');
             } finally {
                 setLoading(false);
@@ -26,21 +33,21 @@ const EditNotePage = () => {
 
         const fetchCampaigns = async () => {
             try {
-                const res = await api/get('/session-notes/dashboard');
+                const notes = await getDashboardNotes({ uid: user.uid });
                 const campaignSet = new Set();
-                res.data.forEach((n) => {
+                notes.forEach((n) => {
                     if (n.campaignTitle) campaignSet.add(n.campaignTitle);
                 });
                 setCampaigns(Array.from(campaignSet));
-            } catch {
-
+            } catch (err) {
+                console.error('Failed to load campaign titles:', err);
             }
         };
 
         const fetchPartyMembers = async () => {
             try {
-                const res = await api.get('/parties/mine');
-                setPartyMembers(res.data);
+                const members = await getPartyMembers(user.partyId);
+                setPartyMembers(members);
             } catch {
                 setPartyMembers([]);
             }
@@ -49,31 +56,33 @@ const EditNotePage = () => {
         fetchNote();
         fetchCampaigns();
         fetchPartyMembers();
-    }, [id]);
+    }, [id, user]);
 
     const handleUpdate = async (updatedData) => {
         try {
-            await api.put(`/session-notes/${id}`, updatedData);
+            await updateNote(id, updatedData, user);
             navigate(`/notes/${id}`);
         } catch (err) {
-            setError('Failed to update note.');
+            setError(err.message || 'Failed to update note.');
         }
     };
 
-    if (loading) return <p>Loading...</p>
-    if (error) return <p>{error}</p>
-    if (!note) return <p>Note not found</p>
+    if (loading) return <p className={styles.heading}>Loading...</p>
+    if (error) return <p className={styles.heading}>{error}</p>
+    if (!note) return <p className={styles.heading}>Note not found</p>
 
     return (
-        <div>
-            <h2>Edit Session Note</h2>
-            <NoteForm
-                onSubmit={handleUpdate}
-                initialData={note}
-                campaignOptions={campaigns}
-                users={partyMembers}
-            />
-        </div>
+        <main className={styles.page}>
+            <h2 className={styles.heading}>Edit Session Note</h2>
+            <div className={styles.card}>
+                <NoteForm
+                    onSubmit={handleUpdate}
+                    initialData={note}
+                    campaignOptions={campaigns}
+                    users={partyMembers}
+                />
+            </div>
+        </main>
     );
 };
 

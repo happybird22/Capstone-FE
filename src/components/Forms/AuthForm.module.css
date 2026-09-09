@@ -11,21 +11,36 @@ label {
     display: flex;
     flex-direction: column;
     font-weight: 600;
-    color: #E6A20E;
-    font-size: 1.25rem;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
     gap: 0.4rem;
 }
 
-input, select, textarea {
+input:not([type="checkbox"]):not([type="radio"]), select, textarea {
     width: 100%;
-    padding: 0.65rem;
-    border: 1px solid #767e79;
-    border-radius: 8px;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
     font-size: 1rem;
-    background-color: #fdf6e3;
-    color: #000000;
+    font-family: var(--font-family);
+    background-color: var(--color-input-bg);
+    color: var(--color-text);
     resize: vertical;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="checkbox"], input[type="radio"] {
+    width: auto;
+    accent-color: var(--color-accent);
+}
+
+select, select option {
+    color-scheme: dark;
+}
+
+::placeholder {
+    color: var(--color-text-dim);
 }
 
 textarea {
@@ -34,13 +49,14 @@ textarea {
 
 input:focus, select:focus, textarea:focus {
     outline: none;
-    border-color: #ec2127;
-    box-shadow: 0 0 0 2px rgba(236, 33, 39, 0.2);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-soft);
 }
 
 fieldset {
-    border: none;
-    padding: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 1rem;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -49,47 +65,78 @@ fieldset {
 
 legend {
     font-weight: 700;
-    color: #E6A20E;
+    color: var(--color-accent);
     margin-bottom: 0.5rem;
     font-size: 1.1rem;
+    padding: 0 0.4rem;
 }
 
 button {
     align-self: flex-start;
-    padding: 0.65rem 1.2rem;
-    background-color: #890c1e;
+    padding: 0.65rem 1.4rem;
+    background: var(--gradient-accent);
     color: #ffffff;
-    border: none;
-    border-radius: 8px;
+    border: 1px solid var(--color-border-accent);
+    border-radius: 999px;
+    font-family: var(--font-family);
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: filter 0.2s ease, transform 0.2s ease;
 }
 
 button:hover {
-    background-color: #ec2127;
+    filter: brightness(1.15);
+    transform: translateY(-1px);
+}
+
+button[type="button"] {
+    background: transparent;
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+}
+
+button[type="button"]:hover {
+    color: var(--color-text);
+    border-color: var(--color-border-accent);
 }
 
 .error {
-    color: red;
+    color: var(--color-accent);
     font-size: 0.9rem;
     margin-bottom: 0.5rem;
 }
 
 .container {
+    position: relative;
     min-height: 100vh;
-    min-width: 100vw;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 2rem;
-    background: linear-gradient(135deg, #000000, #890c1e);
-    color: #ffffff;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    overflow: hidden;
+}
+
+.container::before {
+    content: "";
+    position: absolute;
+    top: -40px;
+    right: -60px;
+    width: 480px;
+    height: 372px;
+    max-width: 60vw;
+    background: url('../../assets/dragon.svg') no-repeat center / contain;
+    opacity: 0.5;
+    pointer-events: none;
 }
 
 .hero {
+    position: relative;
+    z-index: 1;
     max-width: 600px;
     text-align: center;
     margin-bottom: 2rem;
@@ -98,33 +145,48 @@ button:hover {
 .hero h1 {
     font-size: 2.25rem;
     font-weight: 800;
-    color: #E6A20E;
+    color: var(--color-text);
 }
 
 .hero p {
-    color: #f5f5f5;
+    color: var(--color-text-muted);
     margin-top: 0.5rem;
     font-size: 1.1rem;
 }
 
 .authBox {
-    background-color: #ffffff;
+    position: relative;
+    z-index: 1;
+    background-color: var(--color-surface);
     padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
     width: 100%;
     max-width: 450px;
+}
+
+.authBox::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: var(--gradient-border);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
 }
 
 .switchText {
     margin-top: 1rem;
     font-size: .9rem;
-    color: #767e79;
+    color: var(--color-text-dim);
     text-align: center;
 }
 
 .switchText a {
-    color: #E6A20E;
+    color: var(--color-accent);
     font-weight: 500;
     text-decoration: none;
 }
@@ -134,5 +196,5 @@ button:hover {
 }
 
 h1 {
-    color: #E6A20E;
+    color: var(--color-text);
 }

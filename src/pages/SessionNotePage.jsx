@@ -1,7 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/authContext";
-import api from "../api/axios";
+import { getNoteById, deleteNote } from "../services/notes.service";
+import styles from './SessionNotePage.module.css';
 
 const SessionNotePage = () => {
     const { id } = useParams();
@@ -14,9 +15,14 @@ const SessionNotePage = () => {
     useEffect(() => {
         const fetchNote = async () => {
             try {
-                const res = await api.get(`/session-notes/${id}`);
-                setNote(res.data);
+                const data = await getNoteById(id);
+                if (!data) {
+                    setError('Note not found.');
+                    return;
+                }
+                setNote(data);
             } catch (err) {
+                console.error('Failed to load note:', err);
                 setError('Unable to load note.');
             }
         };
@@ -28,57 +34,61 @@ const SessionNotePage = () => {
         if (!window.confirm('Are you sure you want to delete this note?')) return;
 
         try {
-            await api.delete(`/session-notes/${id}`);
+            await deleteNote(id);
             navigate('/dashboard');
         } catch (err) {
+            console.error('Failed to delete note:', err);
             setError('Unable to delete note at this time.');
         }
     };
 
-    if (error) return <p>{error}</p>;
-    if (!note) return <p>Loading note...</p>;
+    if (error) return <p className={styles.status}>{error}</p>;
+    if (!note) return <p className={styles.status}>Loading note...</p>;
 
     const canEditOrDelete = user?._id === note.author;
 
     return (
-        <div>
-            <h1>{note.campaignTitle}</h1>
-            <p>Date: {new Date(note.sessionDate).toLocaleDateString()}</p>
-            
-            <div>
-                <h2>Notes:</h2>
-                <p>{note.notes}</p>
-            </div>
+        <main className={styles.page}>
+            <div className={styles.card}>
+                <h1 className={styles.title}>{note.campaignTitle}</h1>
+                <p className={styles.date}>Date: {new Date(note.sessionDate).toLocaleDateString()}</p>
 
-            <div>
-                <h2>Notable NPCs:</h2>
-                <p>{Array.isArray(note.notableNPCs) ? note.notableNPCs.join(', ') : note.notableNPCs}</p>
-            </div>
-
-            <div>
-                <h2>Notable Places:</h2>
-                <p>{Array.isArray(note.notablePlaces) ? note.notablePlaces.join(', ') : note.notablePlaces}</p>
-            </div>
-
-            <div>
-                <h2>Memorable Moments:</h2>
-                <p>{note.memorableMoments}</p>
-            </div>
-
-            {canEditOrDelete && (
-                <div>
-                    <button
-                        onClick={() => navigate(`/notes/${note._id}/edit`)}>
-                        Edit
-                    </button>
-                    <button
-                        onClick={handleDelete}>
-                        Delete
-                    </button>
+                <div className={styles.section}>
+                    <h2>Notes</h2>
+                    <p>{note.notes}</p>
                 </div>
-            )}
 
-        </div>
+                <div className={styles.section}>
+                    <h2>Notable NPCs</h2>
+                    <p>{Array.isArray(note.notableNPCs) ? note.notableNPCs.join(', ') : note.notableNPCs}</p>
+                </div>
+
+                <div className={styles.section}>
+                    <h2>Notable Places</h2>
+                    <p>{Array.isArray(note.notablePlaces) ? note.notablePlaces.join(', ') : note.notablePlaces}</p>
+                </div>
+
+                <div className={styles.section}>
+                    <h2>Memorable Moments</h2>
+                    <p>{note.memorableMoments}</p>
+                </div>
+
+                {canEditOrDelete && (
+                    <div className={styles.actions}>
+                        <button
+                            className={styles.editButton}
+                            onClick={() => navigate(`/notes/${note._id}/edit`)}>
+                            Edit
+                        </button>
+                        <button
+                            className={styles.deleteButton}
+                            onClick={handleDelete}>
+                            Delete
+                        </button>
+                    </div>
+                )}
+            </div>
+        </main>
     );
 };
 

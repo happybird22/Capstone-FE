@@ -1,30 +1,57 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
-import api from "../api/axios";
+import { createContext, useContext, useEffect, useState } from 'react';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { auth, firestore } from '../config/firebase.config';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [cookies] = useCookies(['jwt']);
     const [user, setUser] = useState(null);
-    console.log(cookies);
-    
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const res = await api.get('/auth/me');
-                setUser(res.data);
-            } catch (err) {
-                console.error('Auth fetch failed:', err);
-                setUser(null);
-            }
-        };
+    const [loading, setLoading] = useState(true);
 
-        fetchUser();
-    }, [cookies]);
+    useEffect(() => {
+        let unsubUserDoc = () => {};
+
+        const unsubAuth = onAuthStateChanged(auth, (authUser) => {
+            unsubUserDoc();
+
+            if (!authUser) {
+                setUser(null);
+                setLoading(false);
+                return;
+            }
+
+            unsubUserDoc = onSnapshot(
+                doc(firestore, 'users', authUser.uid),
+                (snap) => {
+                    setUser(snap.exists() ? { uid: authUser.uid, _id: authUser.uid, ...snap.data() } : null);
+                    setLoading(false);
+                },
+                (err) => {
+                    console.error('User profile fetch failed:', err);
+                    setUser(null);
+                    setLoading(false);
+                }
+            );
+        });
+
+        return () => {
+            unsubAuth();
+            unsubUserDoc();
+        };
+    }, []);
+
+    const logout = async () => {
+        try {
+            await signOut(auth);
+        } catch (err) {
+            console.error('Logout failed:', err);
+        }
+        setUser(null);
+    };
 
     return (
-        <AuthContext.Provider value={{ user }}>
+        <AuthContext.Provider value={{ user, loading, logout }}>
             {children}
         </AuthContext.Provider>
     );

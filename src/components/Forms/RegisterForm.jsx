@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { useCookies } from "react-cookie";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import api from '../../api/axios';
+import { registerUser } from "../../services/auth.service";
+import { useAuth } from "../../context/authContext";
 import styles from './AuthForm.module.css';
 
 const RegisterForm = () => {
@@ -11,13 +11,15 @@ const RegisterForm = () => {
         password: '',
         confirmPassword: '',
         role: 'player',
-    }, {
-        withCredentails: true,
     });
 
     const [error, setError] = useState('');
-    const [, setCookie] = useCookies(['jwt']);
+    const { user } = useAuth();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user) navigate('/dashboard');
+    }, [user, navigate]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -26,6 +28,7 @@ const RegisterForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
 
         if (form.password !== form.confirmPassword) {
             setError('Passwords must match');
@@ -34,18 +37,9 @@ const RegisterForm = () => {
 
         try {
             const { username, email, password, role } = form;
-            const res = await api.post('/auth/register', {
-                username,
-                email,
-                password,
-                role,
-            });
-
-            setCookie('jwt', res.data.token, { path: '/' });
-            navigate('/dashboard');
+            await registerUser({ username, email, password, role });
         } catch (err) {
-            const message = err.response?.data?.message || 'Registration failed. Try again.';
-            setError(message);
+            setError(err.message || 'Registration failed. Try again.');
         }
     };
 
@@ -71,7 +65,7 @@ const RegisterForm = () => {
             <option value="gm">Game Master</option>
             </select>
 
-            <button type="Submit">Create Account</button>
+            <button type="submit">Create Account</button>
         </form>
     );
 };
