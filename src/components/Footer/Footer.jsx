@@ -21,15 +21,23 @@ const Footer = () => {
                         Contact: <a href="mailto:hello@dungeonsnotdating.com">hello@dungeonsnotdating.com</a>
                     </p>
                 </div>
-                <div className='styles.community'>
-                    <p>Connect with our community:</p>
-                    <a href=""
+                <div className={styles.community}>
+                    <p>Find us online:</p>
+                    <a href="https://www.dungeonsnotdating.com"
                     target='_blank'
-                    rel=''
-                    className={styles.discord}
+                    rel='noopener noreferrer'
+                    className={styles.website}
                     >
-                        Join us on Discord
+                        www.dungeonsnotdating.com
                     </a>
+                </div>
+
+                <div className={styles.legal}>
+                    <a href="/faq.html">FAQ</a>
+                    <span aria-hidden="true">·</span>
+                    <a href="/privacy.html">Privacy Policy</a>
+                    <span aria-hidden="true">·</span>
+                    <a href="/terms.html">Terms of Service</a>
                 </div>
             </div>
         </footer>

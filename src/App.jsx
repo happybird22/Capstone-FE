@@ -11,6 +11,7 @@ import SessionNotePage from "./pages/SessionNotePage";
 import EditNotePage from "./pages/EditNotePage";
 import HelpfulHints from "./pages/HelpfulHints";
 import PartyBank from "./pages/PartyBank";
+import NotFoundPage from "./pages/NotFoundPage";
 import Footer from "./components/Footer/Footer";
 
 function App() {
@@ -79,6 +80,7 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Footer />
     </>

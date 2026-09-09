@@ -1,0 +1,23 @@
+.container {
+    padding: 4rem 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    color: var(--color-text);
+}
+
+.container h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.container p {
+    color: var(--color-text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.container a {
+    color: var(--color-accent);
+    font-weight: 600;
+}
