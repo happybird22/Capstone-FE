@@ -48,8 +48,8 @@ const LibraryPage = () => {
             <main className={styles.page}>
                 <h1 className={styles.heading}>{title}</h1>
                 <p className={styles.empty}>
-                    You'll need to join or create a party before you can use the {title}.{' '}
-                    <Link to="/parties/create">Join or create a party</Link>
+                    You'll need to join or create a campaign before you can use the {title}.{' '}
+                    <Link to="/parties/create">Join or create a campaign</Link>
                 </p>
             </main>
         );

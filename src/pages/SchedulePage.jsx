@@ -44,8 +44,8 @@ const SchedulePage = () => {
             <main className={styles.page}>
                 <h1 className={styles.heading}>Schedule</h1>
                 <p className={styles.empty}>
-                    You'll need to join or create a party before you can use the Schedule.{' '}
-                    <Link to="/parties/create">Join or create a party</Link>
+                    You'll need to join or create a campaign before you can use the Schedule.{' '}
+                    <Link to="/parties/create">Join or create a campaign</Link>
                 </p>
             </main>
         );

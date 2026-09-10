@@ -12,7 +12,7 @@ const LoginForm = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (user) navigate('/dashboard');
+        if (user) navigate('/parties/create');
     }, [user, navigate]);
 
     const handleSubmit = async (e) => {

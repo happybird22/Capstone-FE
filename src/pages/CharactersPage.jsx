@@ -32,8 +32,8 @@ const CharactersPage = () => {
             <main className={styles.page}>
                 <h1 className={styles.heading}>Characters</h1>
                 <p className={styles.empty}>
-                    You'll need to join or create a party before you can use Characters.{' '}
-                    <Link to="/parties/create">Join or create a party</Link>
+                    You'll need to join or create a campaign before you can use Characters.{' '}
+                    <Link to="/parties/create">Join or create a campaign</Link>
                 </p>
             </main>
         );

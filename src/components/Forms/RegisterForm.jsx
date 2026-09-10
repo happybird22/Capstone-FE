@@ -18,7 +18,7 @@ const RegisterForm = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (user) navigate('/dashboard');
+        if (user) navigate('/parties/create');
     }, [user, navigate]);
 
     const handleChange = (e) => {

@@ -44,7 +44,7 @@ const NavBar = () => {
                     <span className={styles.roleBadge}>GM View</span>
                 )}
                 <Link to="/notes/create" className={styles.link}>New Note</Link>
-                <Link to="/parties/create" className={styles.link}>New Party</Link>
+                <Link to="/parties/create" className={styles.link}>Campaigns</Link>
                 <Link to="/hints" className={styles.link}>Helpful Hints</Link>
                 <Link to="/party-bank" className={styles.link}>Party Bank</Link>
                 <Link to="/schedule" className={styles.link}>Schedule</Link>
