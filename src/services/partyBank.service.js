@@ -7,6 +7,7 @@ import {
     orderBy,
     query,
     serverTimestamp,
+    updateDoc,
 } from 'firebase/firestore';
 import { firestore } from '../config/firebase.config';
 
@@ -39,6 +40,17 @@ export const addPartyBankItem = async (partyId, item, uid) => {
         magic: !!item.magic,
         addedBy: uid,
         createdAt: serverTimestamp(),
+    });
+};
+
+export const updatePartyBankItem = async (partyId, itemId, item) => {
+    await updateDoc(doc(firestore, 'parties', partyId, 'inventory', itemId), {
+        itemName: item.itemName,
+        desc: item.desc || '',
+        qty: item.qty || 1,
+        value: item.value === undefined ? null : item.value,
+        magic: !!item.magic,
+        updatedAt: serverTimestamp(),
     });
 };
 

@@ -1,11 +1,11 @@
 import styles from './SearchBar.module.css';
 
-const SearchBar = ({ value, onChange }) => {
+const SearchBar = ({ value, onChange, placeholder = 'Search NPCs, Places, Notes...' }) => {
     return (
         <input
         className={styles.searchInput}
         type="text"
-        placeholder="Search NPCs, Places, Notes..."
+        placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         />

@@ -13,6 +13,12 @@
     margin-bottom: 0.5rem;
 }
 
+.sectionHeading {
+    color: var(--color-accent);
+    font-size: 1.3rem;
+    margin: 2rem 0 1rem;
+}
+
 .notice {
     text-align: center;
     color: var(--color-text-muted);
@@ -116,7 +122,8 @@
     margin-bottom: 0.75rem;
 }
 
-.removeButton {
+.removeButton,
+.editButton {
     background: none;
     border: 1px solid var(--color-accent);
     color: var(--color-accent);
@@ -126,9 +133,11 @@
     font-family: var(--font-family);
     font-weight: 600;
     transition: background 0.3s ease, color 0.3s ease;
+    margin-right: 0.5rem;
 }
 
-.removeButton:hover {
+.removeButton:hover,
+.editButton:hover {
     background-color: var(--color-accent);
     color: #fff;
 }

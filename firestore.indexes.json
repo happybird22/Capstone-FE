@@ -16,6 +16,14 @@
         { "fieldPath": "partyId", "order": "ASCENDING" },
         { "fieldPath": "sessionDate", "order": "DESCENDING" }
       ]
+    },
+    {
+      "collectionGroup": "scheduledSessions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "partyId", "order": "ASCENDING" },
+        { "fieldPath": "dateTime", "order": "ASCENDING" }
+      ]
     }
   ],
   "fieldOverrides": []

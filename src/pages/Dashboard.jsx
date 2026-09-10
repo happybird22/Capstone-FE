@@ -1,5 +1,7 @@
 import NoteList from "../components/NoteList";
 import SearchBar from "../components/Search/SearchBar";
+import AppPromo from "../components/AppPromo/AppPromo";
+import NextSessionCard from "../components/NextSessionCard";
 import { useState, useEffect } from "react";
 import { useAuth } from '../context/authContext';
 import { useNavigate } from "react-router-dom";
@@ -16,6 +18,16 @@ const Dashboard = () => {
     const [campaign, setCampaign] = useState('');
     const [partyId, setPartyId] = useState(user?.partyId || '');
     const [parties, setParties] = useState([]);
+    const [lastVisit, setLastVisit] = useState(undefined);
+
+    useEffect(() => {
+        if (!user?.uid) return;
+
+        const key = `sessionJournal:lastVisit:${user.uid}`;
+        const stored = localStorage.getItem(key);
+        setLastVisit(stored ? Number(stored) : null);
+        localStorage.setItem(key, Date.now().toString());
+    }, [user?.uid]);
 
     useEffect(() => {
         if (!user) {
@@ -62,6 +74,12 @@ const Dashboard = () => {
 
     const notes = searchNotes(allNotes, { search: searchTerm, campaign });
 
+    const newSinceLastVisit = lastVisit
+        ? allNotes.filter(
+              (note) => note.author !== user.uid && (note.createdAt?.toMillis?.() ?? 0) > lastVisit
+          ).length
+        : 0;
+
     return (
         <div>
             <main className={styles.page}>
@@ -91,6 +109,18 @@ const Dashboard = () => {
                         )}
                     </div>
                 </div>
+                {user?.partyId && <NextSessionCard partyId={user.partyId} uid={user.uid} />}
+
+                {allNotes.length === 0 && (
+                    <AppPromo message="New here? Get real-time alerts for new notes and party activity on your phone with the Dungeons Not Dating app." />
+                )}
+
+                {newSinceLastVisit > 0 && (
+                    <AppPromo
+                        message={`${newSinceLastVisit} new note${newSinceLastVisit > 1 ? 's' : ''} from your party since your last visit. Want that pushed to your phone instantly?`}
+                    />
+                )}
+
                 <NoteList notes={notes} />
             </main>
         </div>

@@ -77,6 +77,13 @@ export const getMyParty = async (user) => {
     return { _id: snap.id, id: snap.id, ...snap.data() };
 };
 
+export const isPartyGM = async (partyId, uid) => {
+    if (!partyId || !uid) return false;
+
+    const snap = await getDoc(doc(firestore, 'parties', partyId));
+    return snap.exists() && snap.data().gm === uid;
+};
+
 export const getPartyMembers = async (partyId) => {
     if (!partyId) return [];
 

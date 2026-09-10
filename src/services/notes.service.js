@@ -42,6 +42,7 @@ const toNoteData = async (payload, authorUid, partyId) => {
         notes: payload.notes,
         notableNPCs: (payload.notableNPCs || []).filter((npc) => npc.trim() !== ''),
         notablePlaces: (payload.notablePlaces || []).filter((place) => place.trim() !== ''),
+        notableCharacters: (payload.notableCharacters || []).filter((character) => character.trim() !== ''),
         memorableMoments: payload.memorableMoments || '',
         visibility,
         sharedWith,
@@ -121,6 +122,7 @@ export const searchNotes = (notes, { search, campaign } = {}) => {
                 note.notes,
                 ...(note.notableNPCs || []),
                 ...(note.notablePlaces || []),
+                ...(note.notableCharacters || []),
             ]
                 .join(' ')
                 .toLowerCase();

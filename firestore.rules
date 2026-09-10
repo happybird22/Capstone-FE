@@ -14,6 +14,29 @@ service cloud.firestore {
       return get(/databases/$(database)/documents/users/$(uid)).data;
     }
 
+    function partyData(partyId) {
+      return get(/databases/$(database)/documents/parties/$(partyId)).data;
+    }
+
+    function isPartyMember(partyId) {
+      return isSignedIn() && request.auth.uid in partyData(partyId).members;
+    }
+
+    function isPartyGM(partyId) {
+      return isSignedIn() && request.auth.uid == partyData(partyId).gm;
+    }
+
+    // Keep this list in sync with the keys of LIBRARY_KINDS in
+    // src/data/libraryKinds.js — it's the allow-list for the generic
+    // lore-library wildcard match below.
+    function isLoreKind(kind) {
+      return kind in ['npcs', 'places', 'history', 'religions', 'factions', 'quests'];
+    }
+
+    function sessionPartyId(sessionId) {
+      return get(/databases/$(database)/documents/scheduledSessions/$(sessionId)).data.partyId;
+    }
+
     // ---------- Combat Tracker: per-user private subcollections ----------
     // (characters, customMonsters, etc). This project's Firebase Auth +
     // Firestore database is shared between the Session Journal and the
@@ -80,9 +103,60 @@ service cloud.firestore {
 
       // ---------- party bank (shared per-party inventory) ----------
       match /inventory/{itemId} {
-        allow read, create, update, delete: if isSignedIn()
-          && request.auth.uid in
-             get(/databases/$(database)/documents/parties/$(partyId)).data.members;
+        allow read, create, update, delete: if isPartyMember(partyId);
+      }
+
+      // ---------- player character summaries (self-owned, not GM-owned) ----------
+      // Doc ID is the owning player's own uid — the inverse permission model
+      // from the lore libraries below: only the character's own player can
+      // write it, never the GM. The `{kind}` wildcard lore block further down
+      // structurally matches this path too, but isLoreKind('characters') is
+      // false, so it contributes zero permission here (same reasoning as the
+      // inventory comment above) — this block is the sole grant of access.
+      match /characters/{uid} {
+        allow read: if isPartyMember(partyId);
+
+        allow create, update: if isSelf(uid)
+          && isPartyMember(partyId)
+          && request.resource.data.name is string
+          && request.resource.data.description is string;
+
+        allow delete: if isSelf(uid);
+      }
+
+      // ---------- GM lore libraries (NPCs, Places, History, Religions, Factions/Orgs) ----------
+      // GM-authored, GM-only by default; each entry has its own `shared`
+      // flag the GM flips to reveal it to the whole party. Read access
+      // depends on `resource.data.shared`, so any client query for a
+      // non-GM viewer MUST include where('shared','==',true) or Firestore
+      // rejects the whole query (rules can't filter list results, only
+      // accept/reject the query as a whole).
+      // `{kind}` is a wildcard collection-name match guarded by
+      // isLoreKind(), so it never grants anything for `inventory` above —
+      // isLoreKind('inventory') is false, so every allow condition here
+      // short-circuits to false for that collection and the dedicated
+      // inventory rule above remains the only thing granting access to it.
+      match /{kind}/{entryId} {
+        allow read: if isLoreKind(kind)
+          && (isPartyGM(partyId) || (isPartyMember(partyId) && resource.data.shared == true));
+
+        allow create: if isLoreKind(kind)
+          && isPartyGM(partyId)
+          && request.resource.data.name is string
+          && request.resource.data.lore is string
+          && request.resource.data.shared is bool
+          && (!('status' in request.resource.data) || request.resource.data.status in ['open', 'resolved'])
+          && request.resource.data.createdBy == request.auth.uid;
+
+        allow update: if isLoreKind(kind)
+          && isPartyGM(partyId)
+          && request.resource.data.name is string
+          && request.resource.data.lore is string
+          && request.resource.data.shared is bool
+          && (!('status' in request.resource.data) || request.resource.data.status in ['open', 'resolved'])
+          && request.resource.data.createdBy == resource.data.createdBy;
+
+        allow delete: if isLoreKind(kind) && isPartyGM(partyId);
       }
     }
 
@@ -95,6 +169,32 @@ service cloud.firestore {
         && request.auth.uid in request.resource.data.visibleTo;
 
       allow update, delete: if isSignedIn() && resource.data.author == request.auth.uid;
+    }
+
+    // ---------- scheduled sessions (GM-set, party RSVPs) ----------
+    match /scheduledSessions/{sessionId} {
+      allow read: if isPartyMember(resource.data.partyId);
+
+      allow create: if isPartyGM(request.resource.data.partyId)
+        && request.resource.data.dateTime is timestamp
+        && request.resource.data.createdBy == request.auth.uid;
+
+      allow update: if isPartyGM(resource.data.partyId)
+        && request.resource.data.partyId == resource.data.partyId
+        && request.resource.data.dateTime is timestamp
+        && request.resource.data.createdBy == resource.data.createdBy;
+
+      allow delete: if isPartyGM(resource.data.partyId);
+
+      match /rsvps/{uid} {
+        allow read: if isPartyMember(sessionPartyId(sessionId));
+
+        allow create, update: if isSignedIn() && request.auth.uid == uid
+          && isPartyMember(sessionPartyId(sessionId))
+          && request.resource.data.status in ['yes', 'maybe', 'no'];
+
+        allow delete: if isSignedIn() && request.auth.uid == uid;
+      }
     }
   }
 }

@@ -1,0 +1,34 @@
+.promo {
+    composes: gradientBorder from global;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background-color: var(--color-surface);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.promo p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+}
+
+.button {
+    background: var(--gradient-accent);
+    color: #fff;
+    border: 1px solid var(--color-border-accent);
+    padding: 0.5rem 1.2rem;
+    border-radius: 999px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: filter 0.3s ease;
+}
+
+.button:hover {
+    filter: brightness(1.15);
+}

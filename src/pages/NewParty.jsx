@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { createParty, joinParty } from "../services/party.service";
 import PartyForm from "../components/Forms/PartyForm";
 import JoinPartyForm from "../components/Forms/JoinPartyForm";
+import AppPromo from "../components/AppPromo/AppPromo";
 import { useAuth } from "../context/authContext";
 import styles from './FormPage.module.css';
 
@@ -35,6 +36,8 @@ function NewParty() {
     return (
         <main className={styles.page}>
             <h1 className={styles.heading}>Party Portal</h1>
+
+            <AppPromo message="Don't have an invite code? If you're still looking for a group, find one in the Dungeons Not Dating app." />
 
             <div className={styles.card}>
                 {user.role === 'gm' && (

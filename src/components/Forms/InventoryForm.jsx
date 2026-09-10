@@ -1,11 +1,12 @@
 import { useState } from 'react';
 
-function InventoryForm({ onSubmit, onCancel }) {
-    const [itemName, setItemName] = useState('');
-    const [desc, setDesc] = useState('');
-    const [qty, setQty] = useState(1);
-    const [value, setValue] = useState('');
-    const [magic, setMagic] = useState(false);
+function InventoryForm({ onSubmit, onCancel, initialData = {} }) {
+    const isEditing = !!initialData.id;
+    const [itemName, setItemName] = useState(initialData.itemName || '');
+    const [desc, setDesc] = useState(initialData.desc || '');
+    const [qty, setQty] = useState(initialData.qty ?? 1);
+    const [value, setValue] = useState(initialData.value == null ? '' : String(initialData.value));
+    const [magic, setMagic] = useState(!!initialData.magic);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -16,11 +17,14 @@ function InventoryForm({ onSubmit, onCancel }) {
             value: value === '' ? undefined : Number(value),
             magic,
         });
-        setItemName('');
-        setDesc('');
-        setQty(1);
-        setValue('');
-        setMagic(false);
+
+        if (!isEditing) {
+            setItemName('');
+            setDesc('');
+            setQty(1);
+            setValue('');
+            setMagic(false);
+        }
     };
 
     return (
@@ -66,7 +70,7 @@ function InventoryForm({ onSubmit, onCancel }) {
             </label>
 
             <div>
-                <button type="submit">Add Item</button>
+                <button type="submit">{isEditing ? 'Save Changes' : 'Add Item'}</button>
                 {onCancel && (
                     <button type="button" onClick={onCancel}>Cancel</button>
                 )}

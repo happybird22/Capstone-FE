@@ -7,6 +7,7 @@ function NoteForm({ onSubmit, initialData = {}, users = [], campaignOptions = []
     const [memorableMoments, setMemorableMoments] = useState(initialData.memorableMoments || '');
     const [notableNPCs, setNotableNPCs] = useState(initialData.notableNPCs || ['']);
     const [notablePlaces, setNotablePlaces] = useState(initialData.notablePlaces || ['']);
+    const [notableCharacters, setNotableCharacters] = useState(initialData.notableCharacters || ['']);
     const [visibility, setVisibility] = useState(initialData.visibility || 'private');
     const [sharedWith, setSharedWith] = useState(initialData.sharedWith || []);
 
@@ -28,6 +29,15 @@ function NoteForm({ onSubmit, initialData = {}, users = [], campaignOptions = []
     const addPlace = () => setNotablePlaces([...notablePlaces, '']);
     const removePlace = (index) => setNotablePlaces(notablePlaces.filter((_, i) => i !== index));
 
+    const handleCharacterChange = (index, value) => {
+        const newCharacters = [...notableCharacters];
+        newCharacters[index] = value;
+        setNotableCharacters(newCharacters);
+    };
+
+    const addCharacter = () => setNotableCharacters([...notableCharacters, '']);
+    const removeCharacter = (index) => setNotableCharacters(notableCharacters.filter((_, i) => i !== index));
+
     const handleSharedWithChange = (e) => {
         const options = e.target.options;
         const selected = [];
@@ -46,6 +56,7 @@ function NoteForm({ onSubmit, initialData = {}, users = [], campaignOptions = []
             memorableMoments,
             notableNPCs: notableNPCs.filter(npc => npc.trim() !== ''),
             notablePlaces: notablePlaces.filter(place => place.trim() !== ''),
+            notableCharacters: notableCharacters.filter(character => character.trim() !== ''),
             visibility,
             sharedWith,
         });
@@ -106,6 +117,17 @@ function NoteForm({ onSubmit, initialData = {}, users = [], campaignOptions = []
                     </div>
                 ))}
                 <button type="button" onClick={addPlace}>Add Place</button>
+            </fieldset>
+
+            <fieldset>
+                <legend>Notable Characters:</legend>
+                {notableCharacters.map((character, i) => (
+                    <div key={i}>
+                        <input type="text" value={character} onChange={e => handleCharacterChange(i, e.target.value)} />
+                        <button type="button" onClick={() => removeCharacter(i)}>Remove</button>
+                    </div>
+                ))}
+                <button type="button" onClick={addCharacter}>Add Character</button>
             </fieldset>
 
             <label>Visibility:

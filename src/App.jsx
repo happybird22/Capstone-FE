@@ -11,6 +11,12 @@ import SessionNotePage from "./pages/SessionNotePage";
 import EditNotePage from "./pages/EditNotePage";
 import HelpfulHints from "./pages/HelpfulHints";
 import PartyBank from "./pages/PartyBank";
+import SchedulePage from "./pages/SchedulePage";
+import CharactersPage from "./pages/CharactersPage";
+import CharacterDetailPage from "./pages/CharacterDetailPage";
+import LibraryPage from "./pages/LibraryPage";
+import LibraryEntryPage from "./pages/LibraryEntryPage";
+import LibraryEntryEditPage from "./pages/LibraryEntryEditPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import Footer from "./components/Footer/Footer";
 
@@ -77,6 +83,54 @@ function App() {
           element={
             <PrivateRoute>
               <PartyBank />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/schedule"
+          element={
+            <PrivateRoute>
+              <SchedulePage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/characters"
+          element={
+            <PrivateRoute>
+              <CharactersPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/characters/:uid"
+          element={
+            <PrivateRoute>
+              <CharacterDetailPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/library/:kind"
+          element={
+            <PrivateRoute>
+              <LibraryPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/library/:kind/:entryId"
+          element={
+            <PrivateRoute>
+              <LibraryEntryPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/library/:kind/:entryId/edit"
+          element={
+            <PrivateRoute>
+              <LibraryEntryEditPage />
             </PrivateRoute>
           }
         />

@@ -2,13 +2,19 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import InventoryForm from '../components/Forms/InventoryForm';
 import { useAuth } from '../context/authContext';
-import { subscribeToPartyBankItems, addPartyBankItem, removePartyBankItem } from '../services/partyBank.service';
+import {
+    subscribeToPartyBankItems,
+    addPartyBankItem,
+    updatePartyBankItem,
+    removePartyBankItem,
+} from '../services/partyBank.service';
 import styles from './PartyBank.module.css';
 
 const PartyBank = () => {
     const { user } = useAuth();
     const [items, setItems] = useState([]);
     const [showForm, setShowForm] = useState(false);
+    const [editingId, setEditingId] = useState(null);
 
     useEffect(() => {
         if (!user?.partyId) {
@@ -42,6 +48,16 @@ const PartyBank = () => {
         }
     };
 
+    const handleUpdateItem = async (itemId, item) => {
+        try {
+            await updatePartyBankItem(user.partyId, itemId, item);
+            setEditingId(null);
+        } catch (err) {
+            console.error('Failed to update item', err);
+            alert('There was an error saving that item.');
+        }
+    };
+
     const handleRemoveItem = async (id) => {
         try {
             await removePartyBankItem(user.partyId, id);
@@ -61,7 +77,13 @@ const PartyBank = () => {
 
             <div className={styles.topRow}>
                 <p className={styles.total}><strong>Total Value:</strong> {totalValue} gp</p>
-                <button className={styles.addButton} onClick={() => setShowForm((s) => !s)}>
+                <button
+                    className={styles.addButton}
+                    onClick={() => {
+                        setEditingId(null);
+                        setShowForm((s) => !s);
+                    }}
+                >
                     {showForm ? 'Close' : 'Add Item'}
                 </button>
             </div>
@@ -78,18 +100,38 @@ const PartyBank = () => {
                 <div className={styles.grid}>
                     {items.map((item) => (
                         <div key={item.id} className={styles.card}>
-                            <div className={styles.cardHeader}>
-                                <h3>{item.itemName}</h3>
-                                {item.magic && <span className={styles.magicBadge}>Magical</span>}
-                            </div>
-                            {item.desc && <p className={styles.desc}>{item.desc}</p>}
-                            <div className={styles.meta}>
-                                <span>Qty: {item.qty}</span>
-                                {item.value !== undefined && item.value !== null && <span>Value: {item.value} gp</span>}
-                            </div>
-                            <button className={styles.removeButton} onClick={() => handleRemoveItem(item.id)}>
-                                Remove
-                            </button>
+                            {editingId === item.id ? (
+                                <InventoryForm
+                                    key={item.id}
+                                    initialData={item}
+                                    onSubmit={(data) => handleUpdateItem(item.id, data)}
+                                    onCancel={() => setEditingId(null)}
+                                />
+                            ) : (
+                                <>
+                                    <div className={styles.cardHeader}>
+                                        <h3>{item.itemName}</h3>
+                                        {item.magic && <span className={styles.magicBadge}>Magical</span>}
+                                    </div>
+                                    {item.desc && <p className={styles.desc}>{item.desc}</p>}
+                                    <div className={styles.meta}>
+                                        <span>Qty: {item.qty}</span>
+                                        {item.value !== undefined && item.value !== null && <span>Value: {item.value} gp</span>}
+                                    </div>
+                                    <button
+                                        className={styles.editButton}
+                                        onClick={() => {
+                                            setShowForm(false);
+                                            setEditingId(item.id);
+                                        }}
+                                    >
+                                        Edit
+                                    </button>
+                                    <button className={styles.removeButton} onClick={() => handleRemoveItem(item.id)}>
+                                        Remove
+                                    </button>
+                                </>
+                            )}
                         </div>
                     ))}
                 </div>
