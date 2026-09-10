@@ -65,6 +65,13 @@ function NewParty() {
                             <h3>{existingParty.name}</h3>
                         </div>
                         <p className={styles.desc}>Jump back into your ongoing campaign.</p>
+                        {existingParty.gm === user.uid && (
+                            <p className={styles.desc}>
+                                <strong>Invite Code:</strong> {existingParty.inviteCode}
+                                <br />
+                                Share this with anyone you want to invite to your campaign.
+                            </p>
+                        )}
                         <button className={styles.addButton} onClick={() => navigate('/dashboard')}>
                             Continue Campaign
                         </button>
